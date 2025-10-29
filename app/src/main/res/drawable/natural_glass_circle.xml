@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Soft shadow for natural depth -->
+    <item android:top="3dp" android:left="3dp" android:right="3dp" android:bottom="3dp">
+        <shape android:shape="oval">
+            <solid android:color="#08000000" />
+        </shape>
+    </item>
+    
+    <!-- Base glass layer with natural transparency -->
+    <item android:top="1dp" android:left="1dp" android:right="1dp" android:bottom="1dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="45"
+                android:startColor="#08FFFFFF"
+                android:centerColor="#04FFFFFF"
+                android:endColor="#02FFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Natural glass highlight -->
+    <item android:top="0.5dp" android:left="0.5dp" android:right="0.5dp" android:bottom="0.5dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="45"
+                android:startColor="#15FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Subtle inner reflection -->
+    <item android:top="2dp" android:left="2dp" android:right="2dp" android:bottom="2dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="135"
+                android:startColor="#06FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Natural glass border -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="0.4dp"
+                android:color="#20FFFFFF" />
+        </shape>
+    </item>
+    
+</layer-list>

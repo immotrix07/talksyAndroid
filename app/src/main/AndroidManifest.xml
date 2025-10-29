@@ -21,9 +21,9 @@
         tools:targetApi="31">
         
         <activity
-            android:name=".ui.auth.LoginActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.Talksy">
+            android:theme="@style/Theme.Talksy.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -31,14 +31,29 @@
         </activity>
         
         <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Talksy.NoActionBar" />
+        
+        <activity
             android:name=".ui.auth.SignupActivity"
             android:exported="false"
-            android:theme="@style/Theme.Talksy" />
+            android:theme="@style/Theme.Talksy.NoActionBar" />
             
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.Talksy" />
+            android:theme="@style/Theme.Talksy.NoActionBar" />
+            
+        <activity
+            android:name=".ui.chat.ChatListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Talksy.NoActionBar" />
+            
+        <activity
+            android:name=".ui.chat.ChatActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Talksy.NoActionBar" />
             
     </application>
 

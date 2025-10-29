@@ -24,3 +24,4 @@ public class ExampleInstrumentedTest {
         assertEquals("com.talksy.android", appContext.getPackageName());
     }
 }
+

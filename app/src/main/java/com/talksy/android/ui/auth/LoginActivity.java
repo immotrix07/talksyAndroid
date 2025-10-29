@@ -2,127 +2,101 @@ package com.talksy.android.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.talksy.android.BuildConfig;
-import com.talksy.android.R;
-import com.talksy.android.data.model.User;
-import com.talksy.android.data.repository.AuthRepository;
-import com.talksy.android.ui.main.MainActivity;
+import com.talksy.android.data.models.LoginResponse;
+import com.talksy.android.data.models.User;
+import com.talksy.android.data.network.ApiClient;
+import com.talksy.android.data.network.ApiClient.ApiService;
+import com.talksy.android.databinding.ActivityLoginBinding;
+import com.talksy.android.ui.chat.ChatListActivity;
 import com.talksy.android.utils.TokenManager;
 
 public class LoginActivity extends AppCompatActivity {
-    
-    private EditText etEmail, etPassword;
-    private Button btnLogin;
-    private TextView btnSignup;
-    private ProgressBar progressBar;
-    private AuthRepository authRepository;
-    
+
+    private ActivityLoginBinding binding;
+    private ApiService apiService;
+    private TokenManager tokenManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        
-        // Check if user is already logged in
-        if (TokenManager.isLoggedIn(this)) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-            return;
-        }
-        
-        initViews();
-        initRepository();
-        setupClickListeners();
-    }
-    
-    private void initViews() {
-        etEmail = findViewById(R.id.et_email);
-        etPassword = findViewById(R.id.et_password);
-        btnLogin = findViewById(R.id.btn_login);
-        btnSignup = findViewById(R.id.btn_signup);
-        progressBar = findViewById(R.id.progress_bar);
-    }
-    
-    private void initRepository() {
-        Log.d("LoginActivity", "Backend URL: " + BuildConfig.BASE_URL);
-        Log.d("LoginActivity", "Socket URL: " + BuildConfig.SOCKET_URL);
-        authRepository = new AuthRepository(this);
-    }
-    
-    private void setupClickListeners() {
-        btnLogin.setOnClickListener(v -> attemptLogin());
-        btnSignup.setOnClickListener(v -> {
-            startActivity(new Intent(this, SignupActivity.class));
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        apiService = ApiClient.getClient(this).create(ApiService.class);
+        tokenManager = new TokenManager(this);
+
+        binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginUser();
+            }
+        });
+
+        binding.textSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+            }
         });
     }
-    
-    private void attemptLogin() {
-        String email = etEmail.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        
-        if (TextUtils.isEmpty(email)) {
-            etEmail.setError("Email is required");
+
+    private void loginUser() {
+        String email = binding.inputEmail.getText().toString().trim();
+        String password = binding.inputPassword.getText().toString().trim();
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(LoginActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
             return;
         }
-        
-        if (TextUtils.isEmpty(password)) {
-            etPassword.setError("Password is required");
-            return;
-        }
-        
-        if (!isValidEmail(email)) {
-            etEmail.setError("Enter a valid email");
-            return;
-        }
-        
-        showLoading(true);
-        Log.d("LoginActivity", "Attempting login with email: " + email);
-        
-        authRepository.login(email, password, new AuthRepository.AuthCallback() {
+
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+
+        apiService.login(user).enqueue(new retrofit2.Callback<LoginResponse>() {
             @Override
-            public void onSuccess(User user) {
-                runOnUiThread(() -> {
-                    showLoading(false);
-                    if (user != null) {
-                        // Save user data
-                        TokenManager.saveUserId(LoginActivity.this, user.get_id());
-                        TokenManager.saveUserData(LoginActivity.this, user.getFullName());
-                        
-                        Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            public void onResponse(retrofit2.Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
+                    if (loginResponse.isSuccess()) {
+                        tokenManager.saveToken(loginResponse.getToken());
+                        tokenManager.saveUserInfo(
+                                loginResponse.getUser().getId(),
+                                loginResponse.getUser().getFullName(),
+                                loginResponse.getUser().getEmail()
+                        );
+                        String message = loginResponse.getMessage();
+                        if (message == null || message.isEmpty()) {
+                            message = "Login successful!";
+                        }
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, ChatListActivity.class));
                         finish();
+                    } else {
+                        String errorMessage = loginResponse.getMessage();
+                        if (errorMessage == null || errorMessage.isEmpty()) {
+                            errorMessage = "Login failed. Please check your credentials.";
+                        }
+                        Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
                     }
-                });
+                } else {
+                    String errorMessage = response.message();
+                    if (errorMessage == null || errorMessage.isEmpty()) {
+                        errorMessage = "Login failed. Server error.";
+                    }
+                    Toast.makeText(LoginActivity.this, "Login failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                }
             }
-            
+
             @Override
-            public void onError(String error) {
-                Log.e("LoginActivity", "Login failed: " + error);
-                runOnUiThread(() -> {
-                    showLoading(false);
-                    Toast.makeText(LoginActivity.this, "Login failed: " + error, Toast.LENGTH_LONG).show();
-                });
+            public void onFailure(retrofit2.Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-    }
-    
-    private boolean isValidEmail(String email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-    
-    private void showLoading(boolean show) {
-        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        btnLogin.setEnabled(!show);
-        btnSignup.setEnabled(!show);
     }
 }

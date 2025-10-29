@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Base gradient -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="135"
+                android:startColor="#FF4CAF50"
+                android:centerColor="#FF2E7D32"
+                android:endColor="#FF8BC34A"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Glass overlay layer 1 -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="45"
+                android:startColor="#10FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Glass overlay layer 2 -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="225"
+                android:startColor="#08FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+</layer-list>

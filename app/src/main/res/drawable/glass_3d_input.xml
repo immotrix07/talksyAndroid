@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Shadow for depth -->
+    <item android:top="3dp" android:left="3dp" android:right="3dp" android:bottom="3dp">
+        <shape>
+            <solid android:color="#15000000" />
+            <corners android:radius="18dp" />
+        </shape>
+    </item>
+    
+    <!-- Base glass layer -->
+    <item android:top="1dp" android:left="1dp" android:right="1dp" android:bottom="1dp">
+        <shape>
+            <gradient
+                android:angle="45"
+                android:startColor="#20FFFFFF"
+                android:centerColor="#12FFFFFF"
+                android:endColor="#06FFFFFF"
+                android:type="linear" />
+            <corners android:radius="17dp" />
+        </shape>
+    </item>
+    
+    <!-- Glass highlight -->
+    <item android:top="0.5dp" android:left="0.5dp" android:right="0.5dp" android:bottom="0.5dp">
+        <shape>
+            <gradient
+                android:angle="45"
+                android:startColor="#35FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:type="linear" />
+            <corners android:radius="16.5dp" />
+        </shape>
+    </item>
+    
+    <!-- Glass border -->
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="0.8dp"
+                android:color="#50FFFFFF" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+    
+</layer-list>

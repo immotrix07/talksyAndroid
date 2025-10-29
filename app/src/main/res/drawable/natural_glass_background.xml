@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Base gradient background -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="135"
+                android:startColor="#FF4CAF50"
+                android:centerColor="#FF2E7D32"
+                android:endColor="#FF8BC34A"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Subtle glass overlay for natural blur effect -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="45"
+                android:startColor="#08FFFFFF"
+                android:centerColor="#04FFFFFF"
+                android:endColor="#02FFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+    <!-- Additional glass layer for depth -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="225"
+                android:startColor="#06FFFFFF"
+                android:endColor="#01FFFFFF"
+                android:type="linear" />
+        </shape>
+    </item>
+    
+</layer-list>

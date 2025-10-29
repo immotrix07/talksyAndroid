@@ -8,13 +8,25 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- Talksy Brand Colors -->
-    <color name="primary">#FF2196F3</color>
-    <color name="primary_dark">#FF1976D2</color>
-    <color name="accent">#FF03DAC5</color>
+    <!-- Talksy Brand Colors - Green Theme -->
+    <color name="primary">#FF4CAF50</color>
+    <color name="primary_dark">#FF2E7D32</color>
+    <color name="accent">#FF8BC34A</color>
     <color name="secondary">#FF757575</color>
     <color name="background">#FFF5F5F5</color>
     <color name="surface">#FFFFFFFF</color>
     <color name="error">#FFF44336</color>
     <color name="success">#FF4CAF50</color>
+    
+    <!-- Glass effect colors -->
+    <color name="glass_white_30">#30FFFFFF</color>
+    <color name="glass_white_20">#20FFFFFF</color>
+    <color name="glass_white_15">#15FFFFFF</color>
+    <color name="glass_white_10">#10FFFFFF</color>
+    <color name="glass_white_05">#05FFFFFF</color>
+    
+    <!-- Green Gradient colors -->
+    <color name="gradient_start">#FF4CAF50</color>
+    <color name="gradient_center">#FF2E7D32</color>
+    <color name="gradient_end">#FF8BC34A</color>
 </resources>

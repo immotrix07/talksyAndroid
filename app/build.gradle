@@ -15,8 +15,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         
-        buildConfigField "String", "BASE_URL", "\"https://your-backend-url.com/api/\""
-        buildConfigField "String", "SOCKET_URL", "\"https://your-backend-url.com\""
+        buildConfigField "String", "BASE_URL", "\"https://talksy.sevalla.app/api/\""
+        buildConfigField "String", "SOCKET_URL", "\"https://talksy.sevalla.app\""
     }
 
     buildTypes {

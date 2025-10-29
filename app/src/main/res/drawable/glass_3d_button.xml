@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <!-- Deep shadow for 3D effect -->
+    <item android:top="6dp" android:left="6dp" android:right="6dp" android:bottom="6dp">
+        <shape>
+            <solid android:color="#30000000" />
+            <corners android:radius="29dp" />
+        </shape>
+    </item>
+    
+    <!-- Base glass layer -->
+    <item android:top="3dp" android:left="3dp" android:right="3dp" android:bottom="3dp">
+        <shape>
+            <gradient
+                android:angle="45"
+                android:startColor="#30FFFFFF"
+                android:centerColor="#20FFFFFF"
+                android:endColor="#10FFFFFF"
+                android:type="linear" />
+            <corners android:radius="26dp" />
+        </shape>
+    </item>
+    
+    <!-- Glass highlight layer -->
+    <item android:top="1.5dp" android:left="1.5dp" android:right="1.5dp" android:bottom="1.5dp">
+        <shape>
+            <gradient
+                android:angle="45"
+                android:startColor="#50FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:type="linear" />
+            <corners android:radius="24.5dp" />
+        </shape>
+    </item>
+    
+    <!-- Inner reflection -->
+    <item android:top="4dp" android:left="4dp" android:right="4dp" android:bottom="4dp">
+        <shape>
+            <gradient
+                android:angle="135"
+                android:startColor="#25FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:type="linear" />
+            <corners android:radius="23dp" />
+        </shape>
+    </item>
+    
+    <!-- Glass border with depth -->
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="1.2dp"
+                android:color="#70FFFFFF" />
+            <corners android:radius="25dp" />
+        </shape>
+    </item>
+    
+</layer-list>
